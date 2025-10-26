@@ -14,15 +14,20 @@
       </header>
 
       <section class="form-card">
-        <form method="post">
+        <form id="story-form" method="post">
           <label for="story">Describe your scene or story</label>
           <textarea id="story" name="story" rows="8" placeholder="Write a detailed description to turn into a video..." required>{{ request.form.get('story', '') }}</textarea>
-          <button type="submit">Generate video</button>
+          <button id="generate-btn" type="submit">Generate video</button>
         </form>
         {% if error %}
           <p class="message error">{{ error }}</p>
         {% endif %}
       </section>
+
+      <div class="loading-overlay" id="loading-indicator" hidden>
+        <div class="spinner" role="status" aria-live="polite" aria-label="Generating video"></div>
+        <p>Crafting visuals for your story…</p>
+      </div>
 
       {% if video_filename %}
         <section class="result-card">
@@ -31,7 +36,7 @@
             <source src="{{ url_for('static', filename='videos/' + video_filename) }}" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-          <a class="download" href="{{ url_for('static', filename='videos/' + video_filename) }}" download>Download MP4</a>
+          <a class="download" href="{{ url_for('static', filename='videos/' + video_filename) }}" download>Download file</a>
         </section>
       {% endif %}
     </main>
@@ -39,5 +44,19 @@
     <footer>
       <p>Powered by Flask, Pillow, and ImageIO.</p>
     </footer>
+
+    <script>
+      const form = document.getElementById('story-form');
+      const loader = document.getElementById('loading-indicator');
+      const button = document.getElementById('generate-btn');
+
+      if (form && loader && button) {
+        form.addEventListener('submit', () => {
+          loader.removeAttribute('hidden');
+          button.disabled = true;
+          button.classList.add('is-loading');
+        });
+      }
+    </script>
   </body>
 </html>
