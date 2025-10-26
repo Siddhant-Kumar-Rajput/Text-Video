@@ -96,6 +96,26 @@ button:active {
   transform: translateY(1px);
 }
 
+button:disabled,
+button.is-loading {
+  cursor: progress;
+  opacity: 0.7;
+  box-shadow: none;
+  transform: none;
+}
+
+button.is-loading::after {
+  content: "";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.75rem;
+  border-radius: 50%;
+  border: 2px solid rgba(15, 23, 42, 0.35);
+  border-top-color: rgba(15, 23, 42, 0.85);
+  animation: spin 0.9s linear infinite;
+}
+
 .message {
   margin-top: 1rem;
   padding: 0.75rem 1rem;
@@ -129,6 +149,42 @@ button:active {
 .download:hover {
   background: rgba(96, 165, 250, 0.18);
   transform: translateY(-1px);
+}
+
+.loading-overlay[hidden] {
+  display: none;
+}
+
+.loading-overlay {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.loading-overlay p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 3px solid rgba(148, 163, 184, 0.4);
+  border-top-color: rgba(96, 165, 250, 0.9);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 footer {
